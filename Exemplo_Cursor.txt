@@ -1,0 +1,93 @@
+declare
+  cursor cGrupo is
+    select * from pf0064.loc_grupo where cd_grupo between 1 and 5;
+    
+  v_grupo   cGrupo%rowtype;
+begin
+  open cGrupo;
+  loop
+    fetch cGrupo into v_grupo;
+    exit when cGrupo%notfound;
+    insert into loc_grupo (cd_grupo, ds_grupo, vl_locacao_diaria)
+      values(v_grupo.cd_grupo, v_grupo.ds_grupo, v_grupo.vl_locacao_diaria);
+  end loop;
+  close cGrupo;
+  commit;  
+end;
+
+---------------------------------------------------------------------
+
+
+-- Copiar a tabela LOC_Proprietario do professor
+DECLARE
+  cursor cProprietario is
+    select * from pf0064.loc_Proprietario P;
+  
+  cursor cVeiculo is
+    select * from PF0064.LOC_VEICULO;
+  
+  v_proprietario    cProprietario%rowtype;
+  vVeiculo    cVeiculo%rowtype;
+  
+  begin
+    open cProprietario;
+    
+    loop
+    fetch cProprietario into v_proprietario;
+    exit when cProprietario%notfound;
+    insert into rm76349.loc_Proprietario (cd_proprietario, nome_proprietario, tp_proprietario, telefone , nr_cpf, nr_cgc, ds_email)
+        values (v_proprietario.cd_proprietario, 
+                v_proprietario.nome_proprietario, 
+                v_proprietario.tp_proprietario, 
+                v_proprietario.telefone, 
+                v_proprietario.nr_cpf, 
+                v_proprietario.nr_cgc, 
+                v_proprietario.ds_email);
+    end loop;
+    close cProprietario;
+
+   open cVeiculo;
+      loop
+        fetch cVeiculo into vVeiculo;
+        exit when cVeiculo%notfound;
+        insert into loc_veiculo (nr_placa, cd_proprietario, nr_chassis, status, tipo_automovel, km_atual, combustivel, modelo, cor, cd_grupo)
+          values (vVeiculo.nr_placa, 
+                  vVeiculo.cd_proprietario, 
+                  vVeiculo.nr_chassis, 
+                  vVeiculo.status, 
+                  vVeiculo.tipo_automovel, 
+                  vVeiculo.km_atual, 
+                  vVeiculo.combustivel, 
+                  vVeiculo.modelo, 
+                  vVeiculo.cor, 
+                  vVeiculo.cd_grupo);
+      end loop;
+      close cVeiculo;
+      commit;
+  end;
+
+
+
+--TESTE SELECT
+---------------------------------------------------------------------
+
+SELECT G.DS_GRUPO "Grupo",
+       P.NOME_PROPRIETARIO "Nome",
+       V.COMBUSTIVEL "Combustivel",
+       V.COR "Cor",
+       V.KM_ATUAL "Km rodado",
+       V.MODELO "Modelo",
+       V.NR_CHASSIS "Chassis",
+       V.NR_PLACA "Placa",
+       V.STATUS "Status",
+       V.TIPO_AUTOMOVEL "Automovel"
+FROM LOC_VEICULO V 
+  INNER JOIN LOC_PROPRIETARIO P
+ON V.cd_proprietario = P.cd_proprietario
+  INNER JOIN LOC_GRUPO G
+ON v.cd_grupo = G.cd_grupo;
+
+select count(combustivel),
+      combustivel
+from loc_veiculo
+group by COMBUSTIVEL;

@@ -1,0 +1,135 @@
+
+Oracle / PLSQL: TO_CHAR Function
+
+This Oracle tutorial explains how to use the Oracle/PLSQL TO_CHAR function with syntax and examples.
+Description
+
+The Oracle/PLSQL TO_CHAR function converts a number or date to a string.
+Syntax
+
+The syntax for the TO_CHAR function in Oracle/PLSQL is:
+
+TO_CHAR( value [, format_mask] [, nls_language] )
+
+Parameters or Arguments
+
+value
+    A number or date that will be converted to a string.
+format_mask
+    Optional. This is the format that will be used to convert value to a string.
+nls_language
+    Optional. This is the nls language used to convert value to a string.
+
+Applies To
+
+The TO_CHAR function can be used in the following versions of Oracle/PLSQL:
+
+    Oracle 12c, Oracle 11g, Oracle 10g, Oracle 9i, Oracle 8i
+
+Example
+
+Let's look at some Oracle TO_CHAR function examples and explore how to use the TO_CHAR function in Oracle/PLSQL.
+Examples with Numbers
+
+For example:
+
+The following are number examples for the TO_CHAR function.
+
+TO_CHAR(1210.73, '9999.9')
+Result: ' 1210.7'
+
+TO_CHAR(-1210.73, '9999.9')
+Result: '-1210.7'
+
+TO_CHAR(1210.73, '9,999.99')
+Result: ' 1,210.73'
+
+TO_CHAR(1210.73, '$9,999.00')
+Result: ' $1,210.73'
+
+TO_CHAR(21, '000099')
+Result: ' 000021'
+
+Examples with Dates
+
+The following is a list of valid parameters when the TO_CHAR function is used to convert a date to a string. These parameters can be used in many combinations.
+Parameter 	Explanation
+YEAR 	Year, spelled out
+YYYY 	4-digit year
+YYY
+YY
+Y 	Last 3, 2, or 1 digit(s) of year.
+IYY
+IY
+I 	Last 3, 2, or 1 digit(s) of ISO year.
+IYYY 	4-digit year based on the ISO standard
+Q 	Quarter of year (1, 2, 3, 4; JAN-MAR = 1).
+MM 	Month (01-12; JAN = 01).
+MON 	Abbreviated name of month.
+MONTH 	Name of month, padded with blanks to length of 9 characters.
+RM 	Roman numeral month (I-XII; JAN = I).
+WW 	Week of year (1-53) where week 1 starts on the first day of the year and continues to the seventh day of the year.
+W 	Week of month (1-5) where week 1 starts on the first day of the month and ends on the seventh.
+IW 	Week of year (1-52 or 1-53) based on the ISO standard.
+D 	Day of week (1-7).
+DAY 	Name of day.
+DD 	Day of month (1-31).
+DDD 	Day of year (1-366).
+DY 	Abbreviated name of day.
+J 	Julian day; the number of days since January 1, 4712 BC.
+HH 	Hour of day (1-12).
+HH12 	Hour of day (1-12).
+HH24 	Hour of day (0-23).
+MI 	Minute (0-59).
+SS 	Second (0-59).
+SSSSS 	Seconds past midnight (0-86399).
+FF 	Fractional seconds.
+
+The following are date examples for the TO_CHAR function.
+
+TO_CHAR(sysdate, 'yyyy/mm/dd')
+Result: '2003/07/09'
+
+TO_CHAR(sysdate, 'Month DD, YYYY')
+Result: 'July 09, 2003'
+
+TO_CHAR(sysdate, 'FMMonth DD, YYYY')
+Result: 'July 9, 2003'
+
+TO_CHAR(sysdate, 'MON DDth, YYYY')
+Result: 'JUL 09TH, 2003'
+
+TO_CHAR(sysdate, 'FMMON DDth, YYYY')
+Result: 'JUL 9TH, 2003'
+
+TO_CHAR(sysdate, 'FMMon ddth, YYYY')
+Result: 'Jul 9th, 2003'
+
+You will notice that in some TO_CHAR function examples, the format_mask parameter begins with "FM". This means that zeros and blanks are suppressed. This can be seen in the examples below.
+
+TO_CHAR(sysdate, 'FMMonth DD, YYYY')
+Result: 'July 9, 2003'
+
+TO_CHAR(sysdate, 'FMMON DDth, YYYY')
+Result: 'JUL 9TH, 2003'
+
+TO_CHAR(sysdate, 'FMMon ddth, YYYY')
+Result: 'Jul 9th, 2003'
+
+The zeros have been suppressed so that the day component shows as "9" as opposed to "09".
+Frequently Asked Questions
+
+Question: Why doesn't this sort the days of the week in order?
+
+SELECT ename, hiredate, TO_CHAR((hiredate),'fmDay') "Day"
+FROM emp
+ORDER BY "Day";
+
+Answer: In the above SQL, the fmDay format mask used in the TO_CHAR function will return the name of the Day and not the numeric value of the day.
+
+To sort the days of the week in order, you need to return the numeric value of the day by using the fmD format mask as follows:
+
+SELECT ename, hiredate, TO_CHAR((hiredate),'fmD') "Day"
+FROM emp
+ORDER BY "Day";
+

@@ -1,0 +1,61 @@
+INSTR functions
+
+The INSTR functions (INSTR, INSTRB, INSTRC, INSTR2, and INSTR4) searches a string for a substring using characters and returns the position in the string that is the first character of a specified occurrence of the substring. The functions vary in how they determine the position of the substring to return.
+
+    INSTR calculates lengths using characters as defined by the input character set.
+
+    INSTRB calculates lengths using bytes.
+
+    INSTRC calculates lengths using Unicode complete characters.
+
+    INSTR2 calculates lengths using UCS2 code points.
+
+    INSTR4 calculates lengths using UCS4 code points.
+
+Return Value
+
+A nonzero INTEGER when the search is successful or 0 (zero) when it is not.
+
+Syntax
+
+{INSTR | INSTRB | INSTRC | INSTR2 | INSTR4} (string , substring [, position [, occurrence]])
+
+Arguments
+
+string
+
+    The text expression to search.
+substring
+
+    The string to search for.
+position
+
+    A nonzero INTEGER indicating where in string the function begins the search. INSTR calculates position using characters as defined by the input character set. INSTRB calculates position using bytes. INSTRC calculates position using Unicode complete characters. INSTR2 calculates position using UCS2 code points. INSTR4 calculates position using UCS4 code points.
+
+    When position is negative, then INSTR counts and searches backward from the end of string. The default value of position is 1, which means that the function begins searching at the beginning of string.
+occurrence
+
+    An INTEGER indicating which occurrence of string the function should search for. The value of occurrence must be positive. The default values of occurrence is 1, meaning the function searches for the first occurrence of substring.
+
+Examples
+
+Example 7-127 Using Character Position to Search Forward to Find the Position of a Substring
+
+The following example searches the string "Corporate Floor", beginning with the third character, for the string "or". It returns the position in "Corporate Floor" at which the second occurrence of "or" begins.
+
+SHOW INSTR('Corporate Floor','or', 3, 2)
+14
+
+Example 7-128 Using Character Position to Search Backward to Find the Position of a Substring
+
+In this next example, the function counts backward from the last character to the third character from the end, which is the first "o" in "Floor". The function then searches backward for the second occurrence of "or", and finds that this second occurrence begins with the second character in the search string.
+
+SHOW INSTR('Corporate Floor','or', -3, 2)
+2
+
+Example 7-129 Using a Double-Byte Character Set to Find the Position of a Substring
+
+This example assumes a double-byte database character set.
+
+SHOW INSTRB('Corporate Floor','or',5,2) 
+27               

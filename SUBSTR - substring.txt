@@ -1,0 +1,61 @@
+SUBSTR functions
+
+The SUBSTR functions (SUBSTR, SUBSTRB, SUBSTRC, SUBSTR2, and SUBSTR4) return a portion of string, beginning at a specified position in the string. The functions vary in how they calculate the length of the substring to return.
+
+    SUBSTR calculates lengths using characters as defined by the input character set.
+
+    SUBSTRB calculates lengths using bytes.
+
+    SUBSTRC calculates lengths using Unicode complete characters.
+
+    SUBSTR2 calculates lengths using UCS2 code points.
+
+    SUBSTR4 calculates lengths using UCS4 code points.
+
+Return Value
+
+The return value is the same data type as string.
+
+Syntax
+
+{SUBSTR | SUBSTRB | SUBSTRC | SUBSTR2 | SUBSTR4}(char, position [, substring_length ])
+
+Arguments
+
+string
+
+    A text expression that is the base string from which the substring is created.
+position
+
+    The position at which the first character of the returned string begins.
+
+    When position is 0 (zero), then it is treated as 1.
+
+    When position is positive, then the function counts from the beginning of string to find the first character.
+
+    When position is negative, then the function counts backward from the end of string.
+
+substring_length
+
+    The length of the returned string. SUBSTR calculates lengths using characters as defined by the input character set. SUBSTRB uses bytes instead of characters. SUBSTRC uses Unicode complete characters. SUBSTR2 uses UCS2 code points. SUBSTR4 uses UCS4 code points.
+
+    When you do not specify a value for this argument, then the function returns all characters to the end of string. When you specify a value that is less than 1, the function returns NA.
+
+Examples
+
+Example 8-120 Retrieving a Charachter Substring
+
+The following example returns several specified substrings of "abcdefg".
+
+SHOW SUBSTR('abcdefg',3,4) 
+cdef
+
+SHOW SUBSTR('abcdefg',-5,4) 
+cdef
+
+Example 8-121 Retrieving a Substring Using Bytes
+
+Assume a double-byte database character set.
+
+SHOW SUBSTRB('abcdefg',5,4.2) 
+cd
